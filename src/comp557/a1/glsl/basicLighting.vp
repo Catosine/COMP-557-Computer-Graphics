@@ -1,0 +1,17 @@
+#version 400
+
+uniform mat4 P;
+uniform mat4 V;
+uniform mat4 M;
+uniform mat4 MinvT; // only needs to be a mat3, but easier this way...
+
+in vec4 position;  
+in vec3 normal;
+
+out vec3 normalForFP;
+
+void main() {
+    vec4 tmp = V * MinvT * vec4( normal, 0 );
+    normalForFP = normalize( tmp.xyz );
+    gl_Position = P * V * M * position; 
+}

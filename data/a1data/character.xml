@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!-- hierachrical definition of a character -->
+<doc>
+    <node type="freejoint" name="root">
+    	<geom type="box" name="torso" center="0 0.5 0" scale="1 1 0.5"  />
+    	<node type="spherical" name="r shoulder" position="-0.5 1 0">
+        	<geom type="box" name="upper r arm" center="0 -0.5 0" scale="0.2 1 0.2" />
+    	</node>
+	</node>
+</doc>
