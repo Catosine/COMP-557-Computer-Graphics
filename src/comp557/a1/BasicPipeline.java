@@ -46,6 +46,8 @@ public class BasicPipeline {
     private final int MSTACK_SIZE = 32;
     
 	/** TODO: Objective 1: Modeling matrix, make sure this is always the matrix at the top of the stack */
+    // MVP: Model-Viewing-Projection
+    
     //True front of the stack
     private Matrix4d MMatrix = new Matrix4d();
     /** Inverse Transpose of Modeling matrix */
@@ -53,6 +55,7 @@ public class BasicPipeline {
     
     /** View matrix */
     private Matrix4d VMatrix = new Matrix4d();
+    
     /** Projection matrix */
     private Matrix4d PMatrix = new Matrix4d();
     
@@ -130,11 +133,11 @@ public class BasicPipeline {
 	 */
 	public boolean pop() throws RuntimeErrorException {
 		// TODO: Objective 1: stack pop
-		if(this.MStack.size()%2 != 0) {
+		if(this.MStack.size()%2 != 0 || this.MStack.size() == 0) {
 			//The stack is problematic: it should always be even number of items
 			return false;
 		} else {
-			// the stack is not empty
+			// the stack is good
 			this.MMatrix = this.MStack.pop();
 			this.MinvTMatrix = this.MStack.pop();
 			return true;
@@ -159,7 +162,8 @@ public class BasicPipeline {
 			0,	0,	0,	1,
 		});
 		this.MMatrix.mul(this.tmpMatrix4d);
-		this.MinvTMatrix.mul(this.tmpMatrix4d);// is the inverse the same? - assume yes
+		// note: A.mul(B) == A x B
+		this.MinvTMatrix.mul(this.tmpMatrix4d);// is the inverse the same? - certainly no
 	}
 
 	/**
