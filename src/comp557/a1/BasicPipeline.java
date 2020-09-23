@@ -163,7 +163,12 @@ public class BasicPipeline {
 		});
 		this.MMatrix.mul(this.tmpMatrix4d);
 		// note: A.mul(B) == A x B
-		this.MinvTMatrix.mul(this.tmpMatrix4d);// is the inverse the same? - certainly no
+		
+		this.tmpMatrix4d = new Matrix4d(this.MMatrix); 
+		this.tmpMatrix4d.invert();
+		this.tmpMatrix4d.transpose();
+		this.MinvTMatrix = new Matrix4d(this.tmpMatrix4d);
+		
 	}
 
 	/**
@@ -176,13 +181,18 @@ public class BasicPipeline {
 	public void scale( double x, double y, double z ) {
 		// TODO: Objective 2: scale
 		this.tmpMatrix4d.set(new double[] {
-			x,	0,	0,	1,
-			0,	y,	0,	1,
-			0,	0,	z,	1,
+			x,	0,	0,	0,
+			0,	y,	0,	0,
+			0,	0,	z,	0,
 			0,	0,	0,	1,
 		});
 		this.MMatrix.mul(this.tmpMatrix4d);
-		this.MinvTMatrix.mul(this.tmpMatrix4d);// is the inverse the same? - assume yes
+		
+		this.tmpMatrix4d = new Matrix4d(this.MMatrix); 
+		this.tmpMatrix4d.invert();
+		this.tmpMatrix4d.transpose();
+		this.MinvTMatrix = new Matrix4d(this.tmpMatrix4d);
+		
 	}
 	
 	/**
