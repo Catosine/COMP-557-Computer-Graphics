@@ -9,6 +9,7 @@ import javax.swing.border.TitledBorder;
 import com.jogamp.opengl.GLAutoDrawable;
 
 import comp557.a1.geom.SimpleAxis;
+import comp557.a1.geom.Cube;
 import mintools.parameters.BooleanParameter;
 import mintools.parameters.DoubleParameter;
 import mintools.swing.CollapsiblePanel;
@@ -57,6 +58,7 @@ public abstract class GraphNode {
     	// visualizing the frames may or may not help you figure things out!
     	if ( debugFrames.getValue() ) {
     		SimpleAxis.draw( drawable, pipeline );
+    		//Cube.draw(drawable, pipeline);
     		pipeline.drawLabel( drawable, name );
     	}    	
 		for ( GraphNode n : children ) {
