@@ -45,7 +45,8 @@ public class A1App implements GLEventListener {
     
     public A1App() {
         String windowName = "Assignment 1 - " + CharacterMaker.name;
-        GLProfile glp = GLProfile.getDefault();
+        //GLProfile glp = GLProfile.getDefault();
+        GLProfile glp = GLProfile.get(GLProfile.GL4);
         GLCapabilities glcap = new GLCapabilities(glp);
         GLCanvas glCanvas = new GLCanvas( glcap );
         final FPSAnimator animator; 
@@ -82,8 +83,8 @@ public class A1App implements GLEventListener {
     public void init(GLAutoDrawable drawable) {
         drawable.setGL(new DebugGL4(drawable.getGL().getGL4()));
         GL4 gl = drawable.getGL().getGL4();
-        gl.glClearColor(0.5f, 0.0f, 0.0f, 1f); // TODO: Objective 0, change the background colour as you like!
-        gl.glClearDepth(1.0f); // Depth Buffer Setup
+        gl.glClearColor(255f/255f, 182f/255f, 193f/255f, 1f); // TODO: Objective 0, change the background colour as you like!
+        gl.glClearDepth(1f); // Depth Buffer Setup: things with depth < 1 are visible
         gl.glEnable(GL4.GL_DEPTH_TEST); // Enables Depth Testing
         gl.glDepthFunc(GL4.GL_LEQUAL); // The Type Of Depth Testing To Do
         gl.glEnable( GL4.GL_BLEND );

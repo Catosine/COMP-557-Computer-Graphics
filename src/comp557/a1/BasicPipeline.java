@@ -127,15 +127,15 @@ public class BasicPipeline {
 	/**
 	 * Pushes the modeling matrix and its inverse transpose onto the stack so that
 	 * the state can be restored later
+	 * 
 	 */
-	public boolean push() {
+	public void push() {
 		// TODO: Objective 1: stack push
 		if (this.MMatrix != null && this.MinvTMatrix != null) {
-			this.MStack.addFirst(this.MMatrix);
-			this.MStack.addFirst(this.MinvTMatrix);
-			return true;
+			this.MStack.addFirst((Matrix4d) this.MMatrix.clone());
+			this.MStack.addFirst((Matrix4d) this.MinvTMatrix.clone());
 		} else {
-			return false;
+			throw new RuntimeErrorException(null, "Failed to push to stack");
 		}
 	}
 
@@ -143,18 +143,16 @@ public class BasicPipeline {
 	 * Pops the matrix stack, setting the current modeling matrix and inverse
 	 * transpose to the previous state.
 	 * 
-	 * @return peek at the new top of the stack
 	 */
-	public boolean pop() throws RuntimeErrorException {
+	public void pop() {
 		// TODO: Objective 1: stack pop
 		if (this.MStack.size() % 2 != 0 || this.MStack.size() == 0) {
 			// The stack is problematic: it should always be even number of items
-			return false;
+			throw new RuntimeErrorException(null, "Failed to pop from stack");
 		} else {
 			// the stack is good
-			this.MMatrix = this.MStack.pop();
 			this.MinvTMatrix = this.MStack.pop();
-			return true;
+			this.MMatrix = this.MStack.pop();
 		}
 	}
 
@@ -178,11 +176,11 @@ public class BasicPipeline {
 		});
 		this.MMatrix.mul(this.tmpMatrix4d);
 		// note: A.mul(B) == A x B
-
-		this.tmpMatrix4d = new Matrix4d(this.MMatrix);
-		this.tmpMatrix4d.invert();
-		this.tmpMatrix4d.transpose();
-		this.MinvTMatrix = new Matrix4d(this.tmpMatrix4d);
+		
+		// compute new MinvTMatrix
+		this.MinvTMatrix = new Matrix4d(this.MMatrix);
+		this.MinvTMatrix.invert();
+		this.MinvTMatrix.transpose();
 
 	}
 
@@ -203,11 +201,11 @@ public class BasicPipeline {
 					0, 0, 0, 1, 
 		});
 		this.MMatrix.mul(this.tmpMatrix4d);
-
-		this.tmpMatrix4d = new Matrix4d(this.MMatrix);
-		this.tmpMatrix4d.invert();
-		this.tmpMatrix4d.transpose();
-		this.MinvTMatrix = new Matrix4d(this.tmpMatrix4d);
+		
+		// compute new MinvTMatrix
+		this.MinvTMatrix = new Matrix4d(this.MMatrix);
+		this.MinvTMatrix.invert();
+		this.MinvTMatrix.transpose();
 
 	}
 
@@ -258,10 +256,30 @@ public class BasicPipeline {
 	}
 
 	public void initMatricies() {
-		MMatrix.set(new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, });
-		MinvTMatrix.set(new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, });
-		VMatrix.set(new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -2.5, 0, 0, 0, 1, });
-		PMatrix.set(new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -2, -3, 0, 0, -1, 1, });
+		MMatrix.set(new double[] { 
+				1,	0,	0,	0, 
+				0,	1,	0,	0, 
+				0,	0,	1,	0, 
+				0,	0,	0,	1, 
+		});
+		MinvTMatrix.set(new double[] { 
+				1,	0,	0,	0, 
+				0,	1,	0,	0, 
+				0,	0,	1,	0, 
+				0,	0,	0,	1,
+		});
+		VMatrix.set(new double[] { 
+				1,	0,	0,	0, 
+				0,	1,	0,	0, 
+				0,	0,	1,	-2.5, 
+				0,	0,	0,	1, 
+		});
+		PMatrix.set(new double[] { 
+				1,	0,	0,	0, 
+				0, 	1,	0, 	0, 
+				0, 	0,	-2,	-3, 
+				0, 	0, 	-1, 1, 
+		});
 
 		this.MStack = new ArrayDeque<Matrix4d>(this.MSTACK_SIZE);
 	}
