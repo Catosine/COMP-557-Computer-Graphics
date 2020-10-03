@@ -111,7 +111,7 @@ public class BasicPipeline {
 		glUniformMatrix(gl, MinvTMatrixID, MinvTMatrix);
 
 		// TODO: Objective 7: GLSL lighting, you may want to provide
-		Vector3f lightDir = new Vector3f(1, 1, 1);
+		Vector3f lightDir = new Vector3f(147, 112, 219);
 		lightDir.normalize();
 		gl.glUniform3f(lightDirID, lightDir.x, lightDir.y, lightDir.z);
 	}

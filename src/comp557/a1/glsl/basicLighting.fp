@@ -12,4 +12,6 @@ out vec4 fragColor;
 void main(void) {
    //fragColor = vec4( normalForFP, 1 );
    fragColor = vec4( kd * normalForFP.zzz, 1 );
+   
+   //fragColor = vec4(lightDir * normalForFP, 1)
 }

@@ -4,20 +4,35 @@ import com.jogamp.opengl.GLAutoDrawable;
 
 import mintools.parameters.DoubleParameter;
 
-public class FreeJoint extends GraphNode {
+public class SphericalJoint extends GraphNode {
 
-	DoubleParameter tx;
-	DoubleParameter ty;
-	DoubleParameter tz;
+	double tx_max = 2;
+	double tx_min = -2;
+	double tx = 0;
+	
+	double ty_max = 2;
+	double ty_min = -2;
+	double ty = 0;
+	
+	double tz_max = 2;
+	double tz_min = -2;
+	double tz = 0;
+	
 	DoubleParameter rx;
 	DoubleParameter ry;
 	DoubleParameter rz;
 		
-	public FreeJoint( String name) {
+	public SphericalJoint( String name, double tx, double ty, double tz) {
 		super(name);
-		dofs.add( tx = new DoubleParameter( name+" tx", 0, -2, 2 ) );		
-		dofs.add( ty = new DoubleParameter( name+" ty", 0, -2, 2 ) );
-		dofs.add( tz = new DoubleParameter( name+" tz", 0, -2, 2 ) );
+		if (tx<=tx_max && tx>=tx_min) {
+			this.tx = tx;
+		}
+		if (ty<=ty_max && ty>=ty_min) {
+			this.ty = ty;
+		}
+		if (tz<=tz_max && tz>=tz_min) {
+			this.tz = tz;
+		}
 		dofs.add( rx = new DoubleParameter( name+" rx", 0, -180, 180 ) );		
 		dofs.add( ry = new DoubleParameter( name+" ry", 0, -180, 180 ) );
 		dofs.add( rz = new DoubleParameter( name+" rz", 0, -180, 180 ) );
@@ -27,9 +42,9 @@ public class FreeJoint extends GraphNode {
 	public void display( GLAutoDrawable drawable, BasicPipeline pipeline ) {		
 		pipeline.push();// save the previous state of transformation matrices
 		
-		// TODO: Objective 3: Freejoint, transformations must be applied before drawing children
+		// TODO: Objective 3: Sphericaljoint, transformations must be applied before drawing children
 		// translate first
-		pipeline.translate(tx.getFloatValue(), ty.getFloatValue(), tz.getFloatValue());
+		pipeline.translate(tx, ty, tz);
 		
 		// rotate the second
 		// following the yaw-pitch-row

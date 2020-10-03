@@ -30,7 +30,9 @@ public class CharacterMaker {
 			// Here we just return null, which will not be very interesting, so write
 			// some code to create a test or partial character and return the root node.
 
-			return new FreeJoint("test");
+			GraphNode gn = new FreeJoint("Test");
+			gn.add(new GeometryNode("cube", 0, 0, 0, 0.5));
+			return gn;
 		}
 	}
 }
