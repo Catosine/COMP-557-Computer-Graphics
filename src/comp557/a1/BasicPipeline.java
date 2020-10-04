@@ -31,7 +31,7 @@ public class BasicPipeline {
 	public int MinvTMatrixID;
 	public int VMatrixID;
 	public int PMatrixID;
-
+	
 	/**
 	 * TODO: Objective 7: material properties, minimally kd is set up, but add more
 	 * as necessary
@@ -44,25 +44,25 @@ public class BasicPipeline {
 	public int ksID; // id for specular reflection
 	public int kaID; // id for ambient reflection
 	public int seID; // id for specular exponent
-	
+
 	// texture related
-	public Vector3f kd = new Vector3f(238f*0.5f/255f, 130f*0.5f/255f, 238f*0.5f/255f);	// diffuse reflection constant
-	public Vector3f ks = new Vector3f(238f/255f, 130f/255f, 238f/255f);	// specular reflection constant
-	public Vector3f ka = new Vector3f(238f*0.3f/255f, 130f*0.3f/255f, 238f*0.3f/255f);	// ambient reflection constant
-	public float se = 32f;		// specular exponent
-	
+	public Vector3f kd = new Vector3f(0.5f, 0.5f, 0.5f); // diffuse reflection constant
+	public Vector3f ks = new Vector3f(2f, 2f, 2f); // specular reflection constant
+	public Vector3f ka = new Vector3f(0.3f, 0.3f, 0.3f); // ambient reflection constant
+	public float se = 32f; // specular exponent
+
+	// TODO: add three light source: light intensity
 	public int lightIntID; // id for light intensity
-	
-	public Vector3f lightInt = new Vector3f(1f, 1f, 1f);
-	
+	public Vector3f lightInt = new Vector3f(238f / 255f, 130f / 255f, 238f / 255f);
 
 	/**
 	 * TODO: Objective 8: lighting direction, minimally one direction is setup , but
 	 * add more as necessary
 	 */
+	// TODO: add three light source: light direction
 	public int lightDirID;
 	public Vector3f lightDir = new Vector3f(0f, 0f, 1f);
-	
+
 	public int positionAttributeID;
 	public int normalAttributeID;
 
@@ -104,7 +104,7 @@ public class BasicPipeline {
 		VMatrixID = gl.glGetUniformLocation(glslProgramID, "V");
 		PMatrixID = gl.glGetUniformLocation(glslProgramID, "P");
 		kdID = gl.glGetUniformLocation(glslProgramID, "kd");
-		ksID = gl.glGetUniformLocation(glslProgramID, "ks");// self-added 
+		ksID = gl.glGetUniformLocation(glslProgramID, "ks");// self-added
 		kaID = gl.glGetUniformLocation(glslProgramID, "ka");// self-added
 		seID = gl.glGetUniformLocation(glslProgramID, "se");// self-added
 		lightDirID = gl.glGetUniformLocation(glslProgramID, "lightDir");
@@ -134,9 +134,9 @@ public class BasicPipeline {
 		gl.glUniform3f(ksID, ks.x, ks.y, ks.z);
 		gl.glUniform3f(kaID, ka.x, ka.y, ka.z);
 		gl.glUniform1f(seID, se);
-		
+
 		gl.glUniform3f(lightIntID, lightInt.x, lightInt.y, lightInt.z);
-		
+
 		lightDir.normalize();
 		gl.glUniform3f(lightDirID, lightDir.x, lightDir.y, lightDir.z);
 	}
@@ -193,15 +193,10 @@ public class BasicPipeline {
 	 */
 	public void translate(double x, double y, double z) {
 		// TODO: Objective 2: translate
-		this.tmpMatrix4d.set(new double[] { 
-					1, 0, 0, x, 
-					0, 1, 0, y, 
-					0, 0, 1, z, 
-					0, 0, 0, 1, 
-		});
+		this.tmpMatrix4d.set(new double[] { 1, 0, 0, x, 0, 1, 0, y, 0, 0, 1, z, 0, 0, 0, 1, });
 		this.MMatrix.mul(this.tmpMatrix4d);
 		// note: A.mul(B) == A x B
-		
+
 		// compute new MinvTMatrix
 		this.MinvTMatrix = new Matrix4d(this.MMatrix);
 		this.MinvTMatrix.invert();
@@ -219,14 +214,9 @@ public class BasicPipeline {
 	 */
 	public void scale(double x, double y, double z) {
 		// TODO: Objective 2: scale
-		this.tmpMatrix4d.set(new double[] { 
-					x, 0, 0, 0, 
-					0, y, 0, 0, 
-					0, 0, z, 0, 
-					0, 0, 0, 1, 
-		});
+		this.tmpMatrix4d.set(new double[] { x, 0, 0, 0, 0, y, 0, 0, 0, 0, z, 0, 0, 0, 0, 1, });
 		this.MMatrix.mul(this.tmpMatrix4d);
-		
+
 		// compute new MinvTMatrix
 		this.MinvTMatrix = new Matrix4d(this.MMatrix);
 		this.MinvTMatrix.invert();
@@ -281,30 +271,10 @@ public class BasicPipeline {
 	}
 
 	public void initMatricies() {
-		MMatrix.set(new double[] { 
-				1,	0,	0,	0, 
-				0,	1,	0,	0, 
-				0,	0,	1,	0, 
-				0,	0,	0,	1, 
-		});
-		MinvTMatrix.set(new double[] { 
-				1,	0,	0,	0, 
-				0,	1,	0,	0, 
-				0,	0,	1,	0, 
-				0,	0,	0,	1,
-		});
-		VMatrix.set(new double[] { 
-				1,	0,	0,	0, 
-				0,	1,	0,	0, 
-				0,	0,	1,	-2.5, 
-				0,	0,	0,	1, 
-		});
-		PMatrix.set(new double[] { 
-				1,	0,	0,	0, 
-				0, 	1,	0, 	0, 
-				0, 	0,	-2,	-3, 
-				0, 	0, 	-1, 1, 
-		});
+		MMatrix.set(new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, });
+		MinvTMatrix.set(new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, });
+		VMatrix.set(new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -2.5, 0, 0, 0, 1, });
+		PMatrix.set(new double[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -2, -3, 0, 0, -1, 1, });
 
 		this.MStack = new ArrayDeque<Matrix4d>(this.MSTACK_SIZE);
 	}

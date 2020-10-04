@@ -31,7 +31,7 @@ public class CharacterMaker {
 			// some code to create a test or partial character and return the root node.
 
 			GraphNode root = new FreeJoint("root");
-			root.add(new GeometryNode("cube", 0, 0, 0, 1));
+			root.add(new GeometryNode("", "cube", 0, 0, 0, 1.0));
 			return root;
 		}
 	}

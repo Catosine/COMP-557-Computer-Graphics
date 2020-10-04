@@ -4,6 +4,8 @@ import com.jogamp.opengl.GLAutoDrawable;
 
 import mintools.parameters.DoubleParameter;
 
+import javax.vecmath.Tuple3d;
+
 public class FreeJoint extends GraphNode {
 
 	DoubleParameter tx;
@@ -21,6 +23,12 @@ public class FreeJoint extends GraphNode {
 		dofs.add( rx = new DoubleParameter( name+" rx", 0, -180, 180 ) );		
 		dofs.add( ry = new DoubleParameter( name+" ry", 0, -180, 180 ) );
 		dofs.add( rz = new DoubleParameter( name+" rz", 0, -180, 180 ) );
+	}
+	
+	public void setPosition(Tuple3d t) {
+		this.tx.setDefaultValue(t.x);
+		this.ty.setDefaultValue(t.y);
+		this.tz.setDefaultValue(t.z);
 	}
 	
 	@Override
