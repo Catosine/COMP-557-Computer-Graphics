@@ -40,14 +40,29 @@ public class BasicPipeline {
 	 * You will want to use this with a glUniform3f call to set the r g b
 	 * reflectance properties, each being between 0 and 1
 	 */
-	public int kdID;
+	public int kdID; // id for diffuse reflection
+	public int ksID; // id for specular reflection
+	public int kaID; // id for ambient reflection
+	public int seID; // id for specular exponent
+	
+	// texture related
+	public Vector3f kd = new Vector3f(238f*0.5f/255f, 130f*0.5f/255f, 238f*0.5f/255f);	// diffuse reflection constant
+	public Vector3f ks = new Vector3f(238f/255f, 130f/255f, 238f/255f);	// specular reflection constant
+	public Vector3f ka = new Vector3f(238f*0.3f/255f, 130f*0.3f/255f, 238f*0.3f/255f);	// ambient reflection constant
+	public float se = 32f;		// specular exponent
+	
+	public int lightIntID; // id for light intensity
+	
+	public Vector3f lightInt = new Vector3f(1f, 1f, 1f);
+	
 
 	/**
 	 * TODO: Objective 8: lighting direction, minimally one direction is setup , but
 	 * add more as necessary
 	 */
 	public int lightDirID;
-
+	public Vector3f lightDir = new Vector3f(0f, 0f, 1f);
+	
 	public int positionAttributeID;
 	public int normalAttributeID;
 
@@ -89,7 +104,11 @@ public class BasicPipeline {
 		VMatrixID = gl.glGetUniformLocation(glslProgramID, "V");
 		PMatrixID = gl.glGetUniformLocation(glslProgramID, "P");
 		kdID = gl.glGetUniformLocation(glslProgramID, "kd");
+		ksID = gl.glGetUniformLocation(glslProgramID, "ks");// self-added 
+		kaID = gl.glGetUniformLocation(glslProgramID, "ka");// self-added
+		seID = gl.glGetUniformLocation(glslProgramID, "se");// self-added
 		lightDirID = gl.glGetUniformLocation(glslProgramID, "lightDir");
+		lightIntID = gl.glGetUniformLocation(glslProgramID, "lightInt");// self-added
 		positionAttributeID = gl.glGetAttribLocation(glslProgramID, "position");
 		normalAttributeID = gl.glGetAttribLocation(glslProgramID, "normal");
 	}
@@ -111,7 +130,13 @@ public class BasicPipeline {
 		glUniformMatrix(gl, MinvTMatrixID, MinvTMatrix);
 
 		// TODO: Objective 7: GLSL lighting, you may want to provide
-		Vector3f lightDir = new Vector3f(147, 112, 219);
+		gl.glUniform3f(kdID, kd.x, kd.y, kd.z);
+		gl.glUniform3f(ksID, ks.x, ks.y, ks.z);
+		gl.glUniform3f(kaID, ka.x, ka.y, ka.z);
+		gl.glUniform1f(seID, se);
+		
+		gl.glUniform3f(lightIntID, lightInt.x, lightInt.y, lightInt.z);
+		
 		lightDir.normalize();
 		gl.glUniform3f(lightDirID, lightDir.x, lightDir.y, lightDir.z);
 	}

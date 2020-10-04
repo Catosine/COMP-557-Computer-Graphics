@@ -6,7 +6,7 @@ import mintools.parameters.BooleanParameter;
 
 public class CharacterMaker {
 
-	static public String name = "Princess Yao Yao - Pengnan Fan 260768510";
+	static public String name = "Yao the Dear - Pengnan Fan 260768510";
 	
 	// TODO: Objective 8: change default of load from file to true once you start working with xml
 	static BooleanParameter loadFromFile = new BooleanParameter( "Load from file (otherwise by procedure)", false );
@@ -30,9 +30,9 @@ public class CharacterMaker {
 			// Here we just return null, which will not be very interesting, so write
 			// some code to create a test or partial character and return the root node.
 
-			GraphNode gn = new FreeJoint("Test");
-			gn.add(new GeometryNode("cube", 0, 0, 0, 0.5));
-			return gn;
+			GraphNode root = new FreeJoint("root");
+			root.add(new GeometryNode("cube", 0, 0, 0, 1));
+			return root;
 		}
 	}
 }

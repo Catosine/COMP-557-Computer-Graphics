@@ -13,7 +13,9 @@ public class GeometryNode extends GraphNode {
 	double ty;
 	double tz;
 	
-	double scale;
+	double sx;
+	double sy;
+	double sz;
 	
 	String type;
 	
@@ -25,7 +27,22 @@ public class GeometryNode extends GraphNode {
 		this.ty = ty;
 		this.tz = tz;
 		
-		this.scale = scale;
+		this.sx = scale;
+		this.sy = scale;
+		this.sz = scale;
+	}
+	
+	public GeometryNode(String type, double tx, double ty, double tz, double sx, double sy, double sz) {
+		super(type);
+		this.type = type;
+		
+		this.tx = tx;
+		this.ty = ty;
+		this.tz = tz;
+		
+		this.sx = sx;
+		this.sy = sy;
+		this.sz = sz;
 	}
 	
 	@Override
@@ -35,7 +52,7 @@ public class GeometryNode extends GraphNode {
 		
 		// translate first
 		pipeline.translate(tx, ty, tz);
-		pipeline.scale(scale, scale, scale);
+		pipeline.scale(sx, sy, sz);
 		
 		// then draw the geometry
 		if (type == "cube") {
