@@ -25,6 +25,42 @@ public class FreeJoint extends GraphNode {
 		dofs.add( rz = new DoubleParameter( name+" rz", 0, -180, 180 ) );
 	}
 	
+	public void setRx(Tuple3d t) {
+		rx.setDefaultValue(t.x);
+		rx.setMinimum(t.y);
+		rx.setMaximum(t.z);
+	}
+	
+	public void setRy(Tuple3d t) {
+		ry.setDefaultValue(t.x);
+		ry.setMinimum(t.y);
+		ry.setMaximum(t.z);
+	}
+	
+	public void setRz(Tuple3d t) {
+		rz.setDefaultValue(t.x);
+		rz.setMinimum(t.y);
+		rz.setMaximum(t.z);
+	}
+	
+	public void setTx(Tuple3d t) {
+		tx.setDefaultValue(t.x);
+		tx.setMinimum(t.y);
+		tx.setMaximum(t.z);
+	}
+	
+	public void setTy(Tuple3d t) {
+		ty.setDefaultValue(t.x);
+		ty.setMinimum(t.y);
+		ty.setMaximum(t.z);
+	}
+	
+	public void setTz(Tuple3d t) {
+		tz.setDefaultValue(t.x);
+		tz.setMinimum(t.y);
+		tz.setMaximum(t.z);
+	}
+	
 	public void setPosition(Tuple3d t) {
 		this.tx.setDefaultValue(t.x);
 		this.ty.setDefaultValue(t.y);

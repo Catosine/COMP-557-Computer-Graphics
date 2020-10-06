@@ -33,35 +33,47 @@ public class BasicPipeline {
 	public int PMatrixID;
 	
 	/**
-	 * TODO: Objective 7: material properties, minimally kd is set up, but add more
+	 * TODO: Objective 7: material properties, minimally kd1 is set up, but add more
 	 * as necessary
 	 */
 	/**
-	 * You will want to use this with a glUniform3f call to set the r g b
+	 * You will want to use1 this with a glUniform3f call to set the r g b
 	 * reflectance properties, each being between 0 and 1
 	 */
-	public int kdID; // id for diffuse reflection
-	public int ksID; // id for specular reflection
+	public int kdID1; // id for diffuse1 reflection
+	public int ksID1; // id for specular reflection
 	public int kaID; // id for ambient reflection
-	public int seID; // id for specular exponent
+	public int seID1; // id for specular exponent
 
 	// texture related
-	public Vector3f kd = new Vector3f(0.5f, 0.5f, 0.5f); // diffuse reflection constant
-	public Vector3f ks = new Vector3f(2f, 2f, 2f); // specular reflection constant
+	public Vector3f kd1 = new Vector3f(0.5f, 0.5f, 0.5f); // diffuse1 reflection constant
+	public Vector3f ks1 = new Vector3f(2f, 2f, 2f); // specular reflection constant
 	public Vector3f ka = new Vector3f(0.3f, 0.3f, 0.3f); // ambient reflection constant
-	public float se = 32f; // specular exponent
+	public float se1 = 32f; // specular exponent
 
 	// TODO: add three light source: light intensity
-	public int lightIntID; // id for light intensity
-	public Vector3f lightInt = new Vector3f(238f / 255f, 130f / 255f, 238f / 255f);
+	public int lightIntID1; // id for light intensity
+	public Vector3f lightInt1 = new Vector3f(238f / 255f, 0f / 255f, 0f / 255f);
+	
+	public int lightIntID2; // id for light intensity
+	public Vector3f lightInt2 = new Vector3f(0f / 255f, 0f / 255f, 238f / 255f);
+	
+	public int lightIntID3; // id for light intensity
+	public Vector3f lightInt3 = new Vector3f(0f / 255f, 130f / 255f, 0f / 255f);
 
 	/**
 	 * TODO: Objective 8: lighting direction, minimally one direction is setup , but
 	 * add more as necessary
 	 */
 	// TODO: add three light source: light direction
-	public int lightDirID;
-	public Vector3f lightDir = new Vector3f(0f, 0f, 1f);
+	public int lightDirID1;
+	public Vector3f lightDir1 = new Vector3f(1f, 0f, 0f);
+	
+	public int lightDirID2;
+	public Vector3f lightDir2 = new Vector3f(-1f, 0f, 0f);
+
+	public int lightDirID3;
+	public Vector3f lightDir3 = new Vector3f(0f, 0f, 1f);
 
 	public int positionAttributeID;
 	public int normalAttributeID;
@@ -76,7 +88,7 @@ public class BasicPipeline {
 	 */
 	// True front of the stack
 	private Matrix4d MMatrix = new Matrix4d();
-	/** Inverse Transpose of Modeling matrix */
+	/** Inverse1 transpose of Modeling matrix */
 	private Matrix4d MinvTMatrix = new Matrix4d();
 
 	/** View matrix */
@@ -103,12 +115,16 @@ public class BasicPipeline {
 		MinvTMatrixID = gl.glGetUniformLocation(glslProgramID, "MinvT");
 		VMatrixID = gl.glGetUniformLocation(glslProgramID, "V");
 		PMatrixID = gl.glGetUniformLocation(glslProgramID, "P");
-		kdID = gl.glGetUniformLocation(glslProgramID, "kd");
-		ksID = gl.glGetUniformLocation(glslProgramID, "ks");// self-added
-		kaID = gl.glGetUniformLocation(glslProgramID, "ka");// self-added
-		seID = gl.glGetUniformLocation(glslProgramID, "se");// self-added
-		lightDirID = gl.glGetUniformLocation(glslProgramID, "lightDir");
-		lightIntID = gl.glGetUniformLocation(glslProgramID, "lightInt");// self-added
+		kdID1 = gl.glGetUniformLocation(glslProgramID, "kd1");
+		ksID1 = gl.glGetUniformLocation(glslProgramID, "ks1");// se1lf-added
+		kaID = gl.glGetUniformLocation(glslProgramID, "ka");// se1lf-added
+		seID1 = gl.glGetUniformLocation(glslProgramID, "se1");// se1lf-added
+		lightDirID1 = gl.glGetUniformLocation(glslProgramID, "lightDir1");
+		lightIntID1 = gl.glGetUniformLocation(glslProgramID, "lightInt1");// se1lf-added
+		lightDirID2 = gl.glGetUniformLocation(glslProgramID, "lightDir2");
+		lightIntID2 = gl.glGetUniformLocation(glslProgramID, "lightInt2");// se1lf-added
+		lightDirID3 = gl.glGetUniformLocation(glslProgramID, "lightDir3");
+		lightIntID3 = gl.glGetUniformLocation(glslProgramID, "lightInt3");// se1lf-added
 		positionAttributeID = gl.glGetAttribLocation(glslProgramID, "position");
 		normalAttributeID = gl.glGetAttribLocation(glslProgramID, "normal");
 	}
@@ -130,27 +146,37 @@ public class BasicPipeline {
 		glUniformMatrix(gl, MinvTMatrixID, MinvTMatrix);
 
 		// TODO: Objective 7: GLSL lighting, you may want to provide
-		gl.glUniform3f(kdID, kd.x, kd.y, kd.z);
-		gl.glUniform3f(ksID, ks.x, ks.y, ks.z);
+		gl.glUniform3f(kdID1, kd1.x, kd1.y, kd1.z);
+		gl.glUniform3f(ksID1, ks1.x, ks1.y, ks1.z);
 		gl.glUniform3f(kaID, ka.x, ka.y, ka.z);
-		gl.glUniform1f(seID, se);
+		gl.glUniform1f(seID1, se1);
 
-		gl.glUniform3f(lightIntID, lightInt.x, lightInt.y, lightInt.z);
+		gl.glUniform3f(lightIntID1, lightInt1.x, lightInt1.y, lightInt1.z);
 
-		lightDir.normalize();
-		gl.glUniform3f(lightDirID, lightDir.x, lightDir.y, lightDir.z);
+		lightDir1.normalize();
+		gl.glUniform3f(lightDirID1, lightDir1.x, lightDir1.y, lightDir1.z);
+		
+		gl.glUniform3f(lightIntID2, lightInt2.x, lightInt2.y, lightInt2.z);
+
+		lightDir2.normalize();
+		gl.glUniform3f(lightDirID2, lightDir2.x, lightDir2.y, lightDir2.z);
+		
+		gl.glUniform3f(lightIntID3, lightInt3.x, lightInt3.y, lightInt3.z);
+
+		lightDir3.normalize();
+		gl.glUniform3f(lightDirID3, lightDir3.x, lightDir3.y, lightDir3.z);
 	}
 
-	/** Sets the modeling matrix with the current top of the stack */
+	/** sets the modeling matrix with the current top of the stack */
 	public void setModelingMatrixUniform(GL4 gl) {
-		// TODO: Objective 1: make sure you send the top of the stack modeling and
-		// inverse transpose matrices to GLSL
+		// TODO: Objective 1: make sure you se1nd the top of the stack modeling and
+		// inverse1 transpose matrices to GLSL
 		glUniformMatrix(gl, MMatrixID, MMatrix);
 		glUniformMatrix(gl, MinvTMatrixID, MinvTMatrix);
 	}
 
 	/**
-	 * Pushes the modeling matrix and its inverse transpose onto the stack so that
+	 * Pushes the modeling matrix and its inverse1 transpose onto the stack so that
 	 * the state can be restored later
 	 * 
 	 */
@@ -165,7 +191,7 @@ public class BasicPipeline {
 	}
 
 	/**
-	 * Pops the matrix stack, setting the current modeling matrix and inverse
+	 * Pops the matrix stack, setting the current modeling matrix and inverse1
 	 * transpose to the previous state.
 	 * 
 	 */
@@ -238,7 +264,7 @@ public class BasicPipeline {
 		AxisAngle4d aa = new AxisAngle4d(x, y, z, radians);
 		tmpMatrix4d.set(aa);
 		MMatrix.mul(tmpMatrix4d);
-		MinvTMatrix.mul(tmpMatrix4d); // inverse transpose is the same rotation
+		MinvTMatrix.mul(tmpMatrix4d); // inverse1 transpose is the same rotation
 	}
 
 	private float[] columnMajorMatrixData = new float[16];

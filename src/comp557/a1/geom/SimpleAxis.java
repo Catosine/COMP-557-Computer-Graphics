@@ -41,11 +41,11 @@ public class SimpleAxis {
 			gl.glBindBuffer( GL4.GL_ARRAY_BUFFER, normalBufferID );		
 		    gl.glVertexAttribPointer( pipeline.normalAttributeID, 3, GL4.GL_FLOAT, false, 3*Float.BYTES, 0 );			
 			gl.glBindBuffer( GL4.GL_ELEMENT_ARRAY_BUFFER, elementBufferID );			
-			gl.glUniform3f( pipeline.kdID, 1, 0, 0 );
+			gl.glUniform3f( pipeline.kdID1, 1, 0, 0 );
     		gl.glDrawElements( GL4.GL_LINES, 2, GL4.GL_UNSIGNED_SHORT, 0 );
-			gl.glUniform3f( pipeline.kdID, 0, 1, 0 );
+			gl.glUniform3f( pipeline.kdID1, 0, 1, 0 );
     		gl.glDrawElements( GL4.GL_LINES, 2, GL4.GL_UNSIGNED_SHORT, 2 * Short.BYTES );
-			gl.glUniform3f( pipeline.kdID, 0, 0, 1 );
+			gl.glUniform3f( pipeline.kdID1, 0, 0, 1 );
     		gl.glDrawElements( GL4.GL_LINES, 2, GL4.GL_UNSIGNED_SHORT, 4 * Short.BYTES );
 		}
 	}

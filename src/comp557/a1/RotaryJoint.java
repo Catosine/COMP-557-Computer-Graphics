@@ -29,6 +29,12 @@ public class RotaryJoint extends GraphNode{
 		dofs.add( rot = new DoubleParameter( name+" rotation", 0, -180, 180 ) );
 	}
 	
+	public void setRot(Tuple3d t) {
+		rot.setDefaultValue(t.x);
+		rot.setMinimum(t.y);
+		rot.setMaximum(t.z);
+	}
+	
 	public void setPosition(Tuple3d t) {
 		this.tx = t.x;
 		this.ty = t.y;

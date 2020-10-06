@@ -80,13 +80,22 @@ public class CharacterFromXML {
 		if ( type.equals("free") ) {
 			FreeJoint joint = new FreeJoint( name );
 			if ( (t=getTuple3dAttr(dataNode, "position")) != null) joint.setPosition(t);
+			if ( (t=getTuple3dAttr(dataNode,"tx")) != null ) joint.setTx( t );
+			if ( (t=getTuple3dAttr(dataNode,"ty")) != null ) joint.setTy( t );
+			if ( (t=getTuple3dAttr(dataNode,"tz")) != null ) joint.setTz( t );
+			if ( (t=getTuple3dAttr(dataNode,"rx")) != null ) joint.setRx( t );
+			if ( (t=getTuple3dAttr(dataNode,"ry")) != null ) joint.setRy( t );
+			if ( (t=getTuple3dAttr(dataNode,"rz")) != null ) joint.setRz( t );
 			return joint;
 		} else if ( type.equals("spherical") ) {
 			// position is optional (ignored if missing) but should probably be a required attribute!​‌​​​‌‌​​​‌‌​​​‌​​‌‌‌​​‌
 			// Could add optional attributes for limits (to all joints)
 
 			SphericalJoint joint = new SphericalJoint( name );
-			if ( (t=getTuple3dAttr(dataNode,"position")) != null ) joint.setPosition( t );			
+			joint.setPosition( getTuple3dAttr(dataNode,"position") );
+			if ( (t=getTuple3dAttr(dataNode,"rx")) != null ) joint.setRx( t );
+			if ( (t=getTuple3dAttr(dataNode,"ry")) != null ) joint.setRy( t );
+			if ( (t=getTuple3dAttr(dataNode,"rz")) != null ) joint.setRz( t );
 			return joint;
 			
 		} else if ( type.equals("rotary") ) {
@@ -96,7 +105,7 @@ public class CharacterFromXML {
 			RotaryJoint joint = new RotaryJoint( name );
 			joint.setPosition( getTuple3dAttr(dataNode,"position") );
 			joint.setAxis( getTuple3dAttr(dataNode,"axis") );
-			if ( !(tmp=getDoubleAttr(dataNode,"rotation")).isNaN() ) joint.setRotation(tmp.doubleValue());;
+			if ( (t=getTuple3dAttr(dataNode,"rot")) != null ) joint.setRot( t );
 			return joint;
 			
 		} else {

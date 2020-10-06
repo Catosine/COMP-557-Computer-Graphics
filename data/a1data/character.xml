@@ -2,24 +2,63 @@
 <!-- hierachrical definition of a character -->
 <doc>
     <node type="free" name="root" position="0 -1.0 -0.2">
-		<node type="rotary" name="main_y" position="0 0 0" axis="0 1 0" rotation="50">
+		<node type="rotary" name="main_y" position="0 0 0" axis="0 1 0" rot="50 -180 180">
     		<geom type="box" name="body" center="0 1 0" scale="1 0.75 2"/>
-			<node type="rotary" name="lower_neck_x" position="0 1.1 0.75" axis="1 0 0" rotation="25">
+			<node type="spherical" name="lower_neck_x" position="0 1.1 0.75" rx="25 -5 90" ry="0 -60 60" rz="0 -20 20">
 				<geom type="box" name="neck" center="0 0.6 0" scale="0.3 1 0.5"/>
-				<node type="rotary" name="upper_neck_x" position="0 1.1 0" axis="1 0 0" rotation="20">
+				<node type="spherical" name="upper_neck_x" position="0 1.1 0" rx="20 0 40" ry="0 -60 60" rz="0 -20 20">
 					<geom type="box" name="head" center="0 0 0.25" scale="0.6 0.35 1"/>
 
 					<geom type="sphere" name="left_eye" center="0.3 0 0.1" scale="0.1 0.1 0.1"/>
 					<geom type="sphere" name="right_eye" center="-0.3 0 0.1" scale="0.1 0.1 0.1"/>
 
-					<geom type="box" name="left_antler" center="0.2 0.175 -0.1" scale="0.1 0.5 0.1" rotation="0 0 -30"/>
-					<geom type="box" name="right_antler" center="-0.2 0.175 -0.1" scale="0.1 0.5 0.1" rotation="0 0 30"/>
+					<geom type="box" name="left_antler" center="0.2 0.175 -0.1" scale="0.1 0.25 0.1" rotation="-30 0 -15"/>
+					<geom type="box" name="right_antler" center="-0.2 0.175 -0.1" scale="0.1 0.25 0.1" rotation="-30 0 15"/>
+
+					<geom type="box" name="left_antler_1" center="0.3 0.3 -0.2" scale="0.1 0.75 0.1" rotation="-55 0 -30"/>
+					<geom type="box" name="right_antler_1" center="-0.3 0.3 -0.2" scale="0.1 0.75 0.1" rotation="-55 0 30"/>
+
+					<geom type="box" name="left_antler_2" center="0.40 0.30 -0.35" scale="0.1 0.6 0.1" rotation="-120 0 -60"/>
+					<geom type="box" name="right_antler_2" center="-0.40 0.30 -0.35" scale="0.1 0.6 0.1" rotation="-120 0 60"/>
 
 				</node>
 			</node>
-			<node type="rotary" name="tail_x" position="0 1.25 -0.9" axis="-1 0 0" rotation="50">
+			<node type="rotary" name="tail_x" position="0 1.25 -0.9" axis="-1 0 0" rot="50 -45 50">
 				<geom type="box" name="tail" center="0 0 -0.2" scale="0.2 0.2 0.5"/>
 			</node>
+
+			<node type="spherical" name="leg_upper_left_x" position="-0.375 0.75 0.8" rx="5 -65 50" ry="0 -10 10" rz="0 -20 20">
+				<geom type="box" name="leg_upper_left" center="0 -0.2 0" scale="0.15 0.75 0.15"/>
+				<geom type="sphere" name="leg_neckle" center="0 -0.6 0" scale="0.1 0.1 0.1"/>
+				<node type="rotary" name="leg_neckle_x" position="0 -0.6 0" axis="1 0 0" rot="-15 -15 50">
+					<geom type="box" name="leg_lower_left" center="0 -0.3 0" scale="0.15 0.75 0.15"/>
+				</node>
+			</node>
+
+			<node type="spherical" name="leg_upper_right_x" position="0.375 0.75 0.8" rx="5 -65 50" ry="0 -10 10" rz="0 -20 20">
+				<geom type="box" name="leg_upper_right" center="0 -0.2 0" scale="0.15 0.75 0.15"/>
+				<geom type="sphere" name="leg_neckle" center="0 -0.6 0" scale="0.1 0.1 0.1"/>
+				<node type="rotary" name="leg_neckle_x" position="0 -0.6 0" axis="1 0 0" rot="-15 -15 50">
+					<geom type="box" name="leg_right_left" center="0 -0.3 0" scale="0.15 0.75 0.15"/>
+				</node>
+			</node>
+
+			<node type="rotary" name="leg_lower_left_x" position="-0.375 0.75 -0.8" axis="1 0 0" rot="5 -50 65">
+				<geom type="box" name="leg_upper_left" center="0 -0.2 0" scale="0.15 0.75 0.15"/>
+				<geom type="sphere" name="leg_neckle" center="0 -0.6 0" scale="0.1 0.1 0.1"/>
+				<node type="rotary" name="leg_neckle_x" position="0 -0.6 0" axis="1 0 0" rot="-15 -15 50">
+					<geom type="box" name="leg_lower_left" center="0 -0.3 0" scale="0.15 0.75 0.15"/>
+				</node>
+			</node>
+
+			<node type="rotary" name="leg_lower_right_x" position="0.375 0.75 -0.8" axis="1 0 0" rot="5 -50 65">
+				<geom type="box" name="leg_upper_right" center="0 -0.2 0" scale="0.15 0.75 0.15"/>
+				<geom type="sphere" name="leg_neckle" center="0 -0.6 0" scale="0.1 0.1 0.1"/>
+				<node type="rotary" name="leg_neckle_x" position="0 -0.6 0" axis="1 0 0" rot="-15 -15 50">
+					<geom type="box" name="leg_right_left" center="0 -0.3 0" scale="0.15 0.75 0.15"/>
+				</node>
+			</node>
+
 		</node>
 	</node>
 </doc>
