@@ -1,0 +1,5 @@
+bin
+.*
+!.gitignore
+src/comp557.a1/Playground.java
+stills/*
