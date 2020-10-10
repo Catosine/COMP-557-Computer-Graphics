@@ -4,7 +4,7 @@ This repository is used for [COMP 557: Fundementals of Computer Graphics](https:
 ## Assignments  
 1. [Assignment 1: Transform Hierarchy for an Animated Character](./src/comp557/a1)  
 > ![yao_the_deer](./data/a1data/pengnan-yao-the-deer.png)  
-> Results: see video [here](./yao_the_deer_pengnan.mp4)
+> Results: see video [here](./data/a1data/yao_the_deer_pengnan.mp4)
 
 ## Licnese  
 This repository is under the MIT License.  
