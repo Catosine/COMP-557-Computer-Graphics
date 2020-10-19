@@ -1,0 +1,21 @@
+#version 400
+
+uniform mat4 P;
+uniform mat4 V;
+uniform mat4 M;
+uniform mat3 MinvT; 
+
+in vec4 position;  
+in vec3 normal;
+
+out vec3 positionForFP;
+out vec3 normalForFP;
+out vec4 positionLightCVV; // TODO: Objective 7 need to compute fragment position in light camera CCV and set this!
+
+void main() {
+    vec4 posV = V * M * position;
+    vec4 tmp = V * vec4( MinvT * normal, 0 );
+    normalForFP = normalize( tmp.xyz );
+    positionForFP = posV.xyz;
+    gl_Position = P * posV; 
+}

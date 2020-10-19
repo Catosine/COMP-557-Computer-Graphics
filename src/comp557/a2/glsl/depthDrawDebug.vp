@@ -1,0 +1,15 @@
+#version 400
+
+uniform mat4 P;
+uniform mat4 V;
+uniform mat4 M;
+
+in vec4 position;  
+in vec2 texCoord;
+
+out vec2 texCoordForFP;
+
+void main() {	
+   gl_Position = P * V * M * position;
+   texCoordForFP = texCoord;
+}
