@@ -52,16 +52,16 @@ public class ArcBall {
 		double radius = (width > height) ? height : width;
 		radius /= fit.getFloatValue();
 		
-		double pt_x = (mousex-center_x)/radius;
-		double pt_y = (mousey-center_y)/radius;
+		double pt_x = (center_x-mousex)/radius;
+		double pt_y = (center_y-mousey)/radius;
 		double pt_z = 0;
 		
 		double distance = Math.pow(pt_x, 2)  + Math.pow(pt_y, 2);
 		
 		if(distance > 1) 
 		{
-			pt_x /= distance;
-			pt_y /= distance;
+			pt_x /= Math.sqrt(distance);
+			pt_y /= Math.sqrt(distance);
 		}
 		else
 		{
@@ -91,7 +91,6 @@ public class ArcBall {
 					Matrix4d m = new Matrix4d();
 					m.set(temp);
 					R.mul(m);
-					//R.set(m);
 				}
 			}
 		});

@@ -2,6 +2,7 @@ package comp557.a2;
 
 import javax.swing.JPanel;
 import javax.vecmath.Matrix4d;
+import javax.vecmath.Vector3d;
 
 import mintools.parameters.DoubleParameter;
 import mintools.parameters.Parameter;
@@ -16,7 +17,7 @@ import mintools.swing.VerticalFlowPanel;
 public class Camera {
 
 	Vec3Parameter position = new Vec3Parameter("position", 0, 0, 10 );
-	Vec3Parameter lookat = new Vec3Parameter("look at", 0, 0, 2.5 );
+	Vec3Parameter lookat = new Vec3Parameter("look at", 0, 0, 0 );
 	Vec3Parameter up = new Vec3Parameter("up", 0, 1, 0 );
 	
     DoubleParameter near = new DoubleParameter( "near plane", 1, 0.1, 10 );    
@@ -58,20 +59,41 @@ public class Camera {
     public void updateMatrix( double width, double height ) {
     	
     	// TODO: Objective 2: Replace the default viewing matrix with one constructed from the parameters available in this class!
+    	Vector3d w = new Vector3d(new double[] {position.x-lookat.x, position.y-lookat.y, position.z-lookat.z});
+    	w.normalize();
+    	
+    	Vector3d vup = new Vector3d(new double[] {up.x, up.y, up.z});
+    	vup.normalize();
+    	Vector3d u = new Vector3d();
+    	u.cross(w, vup);
+    	u.normalize();
+    	
+    	Vector3d v = new Vector3d();
+    	v.cross(u, w);
+    	v.normalize();
+    	
     	V.set( new double[] {
-        		1,  0,  0,  -lookat.x,
-        		0,  1,  0,  -lookat.y,
-        		0,  0,  1,  -lookat.z,
-        		0,  0,  0,  1,
+    			u.x,	v.x,	w.x,	-position.x,
+    			u.y,	v.y,	w.y,	-position.y,
+    			u.z,	v.z,	w.z,	-position.z,
+    			0,		0,		0,		1,
         } );
+
     	
     	// TODO: Objective 3: Replace the default projection matrix with one constructed from the parameters available in this class!
-        P.set( new double[] {
-        		1,  0,  0,  0,
-        		0,  1,  0,  0,
-        		0,  0, -2, -3,
-        		0,  0, -1,  1,
-        } );    	    
+    	double aspect_ratio = width/height;
+    	double n = near.getValue();
+    	double f = far.getValue();
+    	double t = near.getFloatValue() * Math.tan(Math.toRadians(fovy.getDefaultValue())/2);
+    	double b = -t;
+    	double r = t*aspect_ratio;
+    	double l = -r;
+    	P.set( new double[] {
+        		2*n/(r-l),	0,  		0,  			-n*(r+l)/(r-l),
+        		0,  		2*n/(t-b),	0,  			-n*(t+b)/(t-b),
+        		0,  		0, 			-(f+n)/(f-n),	2*f*n/(n-f),
+        		0,  		0, 			-1,  			0,
+        } );
     	
     }
     
