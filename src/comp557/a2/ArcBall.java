@@ -8,6 +8,7 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.vecmath.AxisAngle4d;
 import javax.vecmath.Matrix4d;
 import javax.vecmath.Vector3d;
 
@@ -25,6 +26,8 @@ public class ArcBall {
 	
 	/** The accumulated rotation of the arcball */
 	Matrix4d R = new Matrix4d();
+	
+	Vector3d p0 = new Vector3d();
 
 	public ArcBall() {
 		R.setIdentity();
@@ -38,12 +41,35 @@ public class ArcBall {
 	public void setVecFromMouseEvent( MouseEvent e, Vector3d v ) {
 		Component c = e.getComponent();
 		Dimension dim = c.getSize();
-		double width = dim.getWidth();
-		double height = dim.getHeight();
+		double width = dim.getWidth(); // width of the window
+		double height = dim.getHeight(); // height of the window
 		int mousex = e.getX();
 		int mousey = e.getY();
 		
 		// TODO: Objective 1: finish arcball vector helper function
+		double center_x = width/2;
+		double center_y = height/2;
+		double radius = (width > height) ? height : width;
+		radius /= fit.getFloatValue();
+		
+		double pt_x = (mousex-center_x)/radius;
+		double pt_y = (mousey-center_y)/radius;
+		double pt_z = 0;
+		
+		double distance = Math.pow(pt_x, 2)  + Math.pow(pt_y, 2);
+		
+		if(distance > 1) 
+		{
+			pt_x /= distance;
+			pt_y /= distance;
+		}
+		else
+		{
+			pt_z = Math.sqrt(1.0 - distance);
+		}
+		
+		v.set(new double[] {pt_x, pt_y, pt_z});
+		v.normalize();
 		
 	}
 		
@@ -54,7 +80,18 @@ public class ArcBall {
 			@Override
 			public void mouseDragged( MouseEvent e ) {				
 				if ( (e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) != 0 ) {
-					// TODO: Objective 1: Finish arcball rotation update on mouse drag when button 1 down!
+					// TODO: Objective 1: Finish arcball rotation update on mouse drag when button 1 down!					
+					Vector3d p1 = new Vector3d();
+					setVecFromMouseEvent(e, p1);
+					Vector3d axis = new Vector3d();
+					axis.cross(p0, p1);
+					axis.normalize();
+					double radian = Math.acos(p0.dot(p1)) * gain.getFloatValue();
+					AxisAngle4d temp = new AxisAngle4d(axis, radian);
+					Matrix4d m = new Matrix4d();
+					m.set(temp);
+					R.mul(m);
+					//R.set(m);
 				}
 			}
 		});
@@ -64,6 +101,8 @@ public class ArcBall {
 			@Override
 			public void mousePressed( MouseEvent e) {
 				// TODO: Objective 1: arcball interaction starts when mouse is clicked
+				// should store the inital position
+				setVecFromMouseEvent(e, p0);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {}

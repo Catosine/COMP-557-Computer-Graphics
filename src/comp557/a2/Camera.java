@@ -16,7 +16,7 @@ import mintools.swing.VerticalFlowPanel;
 public class Camera {
 
 	Vec3Parameter position = new Vec3Parameter("position", 0, 0, 10 );
-	Vec3Parameter lookat = new Vec3Parameter("look at", 0, 0, 0 );
+	Vec3Parameter lookat = new Vec3Parameter("look at", 0, 0, 2.5 );
 	Vec3Parameter up = new Vec3Parameter("up", 0, 1, 0 );
 	
     DoubleParameter near = new DoubleParameter( "near plane", 1, 0.1, 10 );    
@@ -59,9 +59,9 @@ public class Camera {
     	
     	// TODO: Objective 2: Replace the default viewing matrix with one constructed from the parameters available in this class!
     	V.set( new double[] {
-        		1,  0,  0,  0,
-        		0,  1,  0,  0,
-        		0,  0,  1, -2.5,
+        		1,  0,  0,  -lookat.x,
+        		0,  1,  0,  -lookat.y,
+        		0,  0,  1,  -lookat.z,
         		0,  0,  0,  1,
         } );
     	
