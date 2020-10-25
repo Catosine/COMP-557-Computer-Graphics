@@ -18,7 +18,7 @@ import mintools.swing.VerticalFlowPanel;
 public class PointLightCamera extends Camera {	
 
     public BooleanParameter debugLightFrustum = new BooleanParameter( "debug light frustum" , true );
-    public DoubleParameter sigma = new DoubleParameter( "self shadowing offset", 0.0015, 0, 0.1 );
+    public DoubleParameter sigma = new DoubleParameter( "self shadowing offset", 0.0015, 0, 0.002 );
 	    
     public PointLightCamera() {
     	super();
@@ -41,21 +41,37 @@ public class PointLightCamera extends Camera {
 		pipeline.disableLighting(drawable);
 
     	// TODO: Objective 4: draw the light frame using a fancy axis... You must set up the right transformation!
-    	
-		FancyAxis.draw(drawable, pipeline);
-
-
-		// TODO: Objective 5: draw the light camera frustum using the inverse projection with a wire cube. You must set up the right transformation!
+    	Vinv.set(V);
+    	Vinv.invert();
 		
+		pipeline.push();
+		pipeline.multMatrix(drawable, Vinv);
+		FancyAxis.draw(drawable, pipeline);
+		pipeline.pop(drawable);
+		
+		// TODO: Objective 5: draw the light camera frustum using the inverse projection with a wire cube. You must set up the right transformation!
+		Pinv.set(P);
+		Pinv.invert();
+		
+		pipeline.push();
+		pipeline.multMatrix(drawable, Vinv);
+		pipeline.multMatrix(drawable, Pinv);
 		pipeline.setkd( drawable, 1, 1, 1 );
 		WireCube.draw( drawable, pipeline );
+		pipeline.pop(drawable);
 
 
 		// TODO: Objective 5: draw the light view on the near plane of the frustum. You must set up the right transformation! 
 		// That is, translate and scale the x and y directions of the -1 to 1 quad so that the quad fits exactly the l r t b portion of the near plane
-
+		
+		pipeline.push();
+		pipeline.multMatrix(drawable, Vinv);
+		pipeline.multMatrix(drawable, Pinv);
 		pipeline.debugLightTexture(drawable);
 		QuadWithTexCoords.draw( drawable, pipeline );
+		pipeline.pop(drawable);
+		
+		pipeline.enableLighting(drawable);
 		
     }
     

@@ -52,7 +52,7 @@ public class ArcBall {
 		double radius = (width > height) ? height : width;
 		radius /= fit.getFloatValue();
 		
-		double pt_x = (center_x-mousex)/radius;
+		double pt_x = (mousex-center_x)/radius;
 		double pt_y = (center_y-mousey)/radius;
 		double pt_z = 0;
 		

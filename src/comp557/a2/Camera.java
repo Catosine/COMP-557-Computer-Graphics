@@ -59,26 +59,35 @@ public class Camera {
     public void updateMatrix( double width, double height ) {
     	
     	// TODO: Objective 2: Replace the default viewing matrix with one constructed from the parameters available in this class!
-    	Vector3d w = new Vector3d(new double[] {position.x-lookat.x, position.y-lookat.y, position.z-lookat.z});
+    	Vector3d e = new Vector3d();
+    	position.get(e);
+    	
+    	Vector3d g = new Vector3d();
+    	lookat.get(g);
+    	
+    	Vector3d up_ = new Vector3d();
+    	up.get(up_);
+    	up_.normalize();
+    	
+    	Vector3d w = new Vector3d();
+    	w.sub(e, g);
     	w.normalize();
     	
-    	Vector3d vup = new Vector3d(new double[] {up.x, up.y, up.z});
-    	vup.normalize();
     	Vector3d u = new Vector3d();
-    	u.cross(w, vup);
+    	u.cross(up_, w);
     	u.normalize();
     	
     	Vector3d v = new Vector3d();
-    	v.cross(u, w);
+    	v.cross(w, u);
     	v.normalize();
     	
     	V.set( new double[] {
-    			u.x,	v.x,	w.x,	-position.x,
-    			u.y,	v.y,	w.y,	-position.y,
-    			u.z,	v.z,	w.z,	-position.z,
+    			u.x,	v.x,	w.x,	position.x,
+    			u.y,	v.y,	w.y,	position.y,
+    			u.z,	v.z,	w.z,	position.z,
     			0,		0,		0,		1,
         } );
-
+    	V.invert();
     	
     	// TODO: Objective 3: Replace the default projection matrix with one constructed from the parameters available in this class!
     	double aspect_ratio = width/height;
@@ -89,9 +98,9 @@ public class Camera {
     	double r = t*aspect_ratio;
     	double l = -r;
     	P.set( new double[] {
-        		2*n/(r-l),	0,  		0,  			-n*(r+l)/(r-l),
-        		0,  		2*n/(t-b),	0,  			-n*(t+b)/(t-b),
-        		0,  		0, 			-(f+n)/(f-n),	2*f*n/(n-f),
+        		2*n/(r-l),	0,  		(r+l)/(r-l),  	0,
+        		0,  		2*n/(t-b),	(t+b)/(t-b),    0,
+        		0,  		0, 			(f+n)/(n-f),	2*f*n/(n-f),
         		0,  		0, 			-1,  			0,
         } );
     	
