@@ -93,7 +93,7 @@ public class Camera {
     	double aspect_ratio = width/height;
     	double n = near.getValue();
     	double f = far.getValue();
-    	double t = near.getFloatValue() * Math.tan(Math.toRadians(fovy.getDefaultValue())/2);
+    	double t = near.getFloatValue() * Math.tan(Math.toRadians(fovy.getFloatValue())/2);
     	double b = -t;
     	double r = t*aspect_ratio;
     	double l = -r;

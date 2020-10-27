@@ -26,11 +26,14 @@ public class ArcBall {
 	
 	/** The accumulated rotation of the arcball */
 	Matrix4d R = new Matrix4d();
+	Matrix4d m = new Matrix4d();
 	
 	Vector3d p0 = new Vector3d();
+	boolean cont_drag = false;
 
 	public ArcBall() {
 		R.setIdentity();
+		m.setIdentity();
 	}
 	
 	/** 
@@ -81,14 +84,19 @@ public class ArcBall {
 			public void mouseDragged( MouseEvent e ) {				
 				if ( (e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) != 0 ) {
 					// TODO: Objective 1: Finish arcball rotation update on mouse drag when button 1 down!					
+					if(cont_drag) {
+						m.invert();
+						R.mul(m);
+					}
 					Vector3d p1 = new Vector3d();
 					setVecFromMouseEvent(e, p1);
 					Vector3d axis = new Vector3d();
 					axis.cross(p0, p1);
 					axis.normalize();
 					double radian = Math.acos(p0.dot(p1)) * gain.getFloatValue();
+					cont_drag = radian!=0;
 					AxisAngle4d temp = new AxisAngle4d(axis, radian);
-					Matrix4d m = new Matrix4d();
+//					Matrix4d m = new Matrix4d();
 					m.set(temp);
 					R.mul(m);
 				}
@@ -100,8 +108,8 @@ public class ArcBall {
 			@Override
 			public void mousePressed( MouseEvent e) {
 				// TODO: Objective 1: arcball interaction starts when mouse is clicked
-				// should store the inital position
 				setVecFromMouseEvent(e, p0);
+				cont_drag = false;
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {}
