@@ -36,6 +36,9 @@ public class ShadowPipeline {
     private int sigmaID;
     private int shadowMapID;
     
+    private int lightVID;
+    private int lightPID;
+    
     // extra uniforms for using the depth draw debug program
 	public int alphaID;
 	public int depthTextureID;
@@ -81,7 +84,8 @@ public class ShadowPipeline {
         sigmaID = gl.glGetUniformLocation( basicLighting.glslProgramID, "sigma" );
         shadowMapID = gl.glGetUniformLocation( basicLighting.glslProgramID, "shadowMap" );       
         // TODO: Objective 7, add extra uniforms to the basic lighting program help compute fragment in the light camera canonical viewing volume
-        
+        lightVID = gl.glGetUniformLocation(basicLighting.glslProgramID, "light_v");
+        lightPID = gl.glGetUniformLocation(basicLighting.glslProgramID, "light_p");
         
         // Texture and program for drawing depth view from light and debugging the depth view
         shadowMap.setupDepthTextureFrameBuffer(drawable);
@@ -139,7 +143,8 @@ public class ShadowPipeline {
 		gl.glUniform1i( shadowMapID, 0 ); // texture unit zero
 
 		// TODO: Objective 7: be sure to set extra uniforms to transform fragments to the camera canonical viewing volume.
-
+		basicLighting.glUniformMatrix(gl, lightVID, light.V);
+		basicLighting.glUniformMatrix(gl, lightPID, light.P);
 	}
 
 	/**

@@ -84,6 +84,7 @@ public class ArcBall {
 			public void mouseDragged( MouseEvent e ) {				
 				if ( (e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) != 0 ) {
 					// TODO: Objective 1: Finish arcball rotation update on mouse drag when button 1 down!					
+					Matrix4d copy_m = new Matrix4d(m);
 					if(cont_drag) {
 						m.invert();
 						R.mul(m);
@@ -96,7 +97,6 @@ public class ArcBall {
 					double radian = Math.acos(p0.dot(p1)) * gain.getFloatValue();
 					cont_drag = radian!=0;
 					AxisAngle4d temp = new AxisAngle4d(axis, radian);
-//					Matrix4d m = new Matrix4d();
 					m.set(temp);
 					R.mul(m);
 				}

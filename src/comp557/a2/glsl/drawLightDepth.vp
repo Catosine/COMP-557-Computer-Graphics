@@ -7,5 +7,6 @@ uniform mat4 M;
 in vec4 position;  
 
 void main() {
+	
     gl_Position = P * V * M * position; 
 }
