@@ -7,6 +7,7 @@ Note: Assignments will only be published AFTER submission deadline.
 > ![yao_the_deer](./data/a1data/pengnan-yao-the-deer.png)  
 > Results: see video [here](./data/a1data/yao_the_deer_pengnan.mp4)  
 2. [Assignment 2: ArcBall and Shadow Maps](./src/comp557/a2)  
+> ![yao_the_deer](./data/a2data/comp557a2_pengnan_260768510.png)  
 > Released on 27 Oct. 2020  
 
 ## License  
