@@ -9,6 +9,9 @@ Note: Assignments will only be published AFTER submission deadline.
 2. [Assignment 2: ArcBall and Shadow Maps](./src/comp557/a2)  
 > ![yao_the_deer](./data/a2data/comp557a2_pengnan_260768510.png)  
 > Released on 27 Oct. 2020  
+3. [Assignment 3: The Utah Teapot](./src/comp557/a3/)  
+> Wired bug to be fixed: caused by intervention between a1/a2/a3.  
+> Released on 11 Oct. 2020  
 
 ## License  
 This repository is under the MIT License.  
